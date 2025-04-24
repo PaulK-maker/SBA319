@@ -4,15 +4,17 @@ import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
 import { logger } from "./middleware/logger.js";
-import { errorHandler } from "./middleware/errorHandler.js";
+import errorHandler from "./middleware/errorHandler.js";
 import eventRoutes from "./routes/eventRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
 import companyRoutes from "./routes/companyRoutes.js";
-import seedRoute from './routes/seedRoute.js'; // Import the seed route
+import rsvpRoute from './routes/rsvpRoute.js';  // Import rsvpRoute
+import seedRoute from './routes/seedRoute.js';
 import methodOverride from 'method-override';
+import Event from './models/eventModel.js'; // Import the Event model
 
 dotenv.config();
-
+console.log("MONGO_URI:", process.env.MONGO_URI);
 connectDB();
 
 const app = express();
@@ -38,15 +40,23 @@ app.set("views", path.join(__dirname, "Views"));
 app.use("/events", eventRoutes);
 app.use("/users", userRoutes);
 app.use("/companies", companyRoutes);
-app.use('/seed', seedRoute); // Use the seed route
+app.use('/rsvp', rsvpRoute);  // Use rsvpRoute
+app.use('/seed', seedRoute);
 
-app.get("/", (req, res) => {
-    res.render("pages/home", { title: "Home" });
+// Updated route handler to fetch events
+app.get("/", async (req, res) => {
+  try {
+    const events = await Event.find({}); // Fetch all events from the database
+    res.render("pages/home", { title: "Home", events: events }); // Pass the events to the view
+  } catch (error) {
+    console.error("Error fetching events:", error);
+    res.status(500).send("Error fetching events");
+  }
 });
 
 // Error handling
 app.use((req, res, next) => {
-    res.status(404).json({ error: "Resource Not Found" });
+  res.status(404).json({ error: "Resource Not Found" });
 });
 app.use(errorHandler);
 

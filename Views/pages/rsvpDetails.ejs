@@ -1,0 +1,18 @@
+<%- include('../layouts/main') %>
+
+<div class="container">
+  <h1><%= title %></h1>
+
+  <% if (rsvps && rsvps.length > 0) { %>
+    <ul class="list-group">
+      <% rsvps.forEach(rsvp => { %>
+        <li class="list-group-item">
+          <a href="/rsvp/<%= rsvp._id %>"><%= rsvp.name %></a> - <%= rsvp.email %>
+          (Event: <%= rsvp.event.title %>)
+        </li>
+      <% }); %>
+    </ul>
+  <% } else { %>
+    <p>No RSVPs found.</p>
+  <% } %>
+</div>
