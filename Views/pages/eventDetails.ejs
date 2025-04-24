@@ -1,0 +1,55 @@
+<%- include('../layouts/main') %>
+
+<div class="container">
+    <h1><%= title %></h1>
+
+    <h2><%= event.title %></h2>
+    <p><strong>Date:</strong> <%= new Date(event.date).toLocaleDateString() %></p>
+    <p><strong>Time:</strong> <%= event.time %></p>
+    <p><strong>Location:</strong> <%= event.location %></p>
+    <p><strong>Description:</strong> <%= event.description %></p>
+
+    <h3>Attendees:</h3>
+    <ul>
+        <% if (event.attendees && event.attendees.length > 0) { %>
+            <% event.attendees.forEach(attendee => { %>
+                <li><%= attendee.name %> (<%= attendee.email %>)</li>
+            <% }) %>
+        <% } else { %>
+            <li>No attendees yet.</li>
+        <% } %>
+    </ul>
+
+    <h3>RSVP Reservation</h3>
+    <form action="/rsvp" method="POST">
+        <input type="hidden" name="event" value="<%= event._id %>">
+        <input type="text" name="name" placeholder="Your Name" required />
+        <input type="email" name="email" placeholder="Your Email" required />
+        <button type="submit">RSVP</button>
+    </form>
+
+    <h3>Update Your Event</h3>
+    <form action="/events/<%= event._id %>?_method=PATCH" method="POST">
+        <label for="title">Event Title:</label><br>
+        <input type="text" id="title" name="title" value="<%= event.title %>"><br><br>
+
+        <label for="date">Date:</label><br>
+        <input type="date" id="date" name="date" value="<%= new Date(event.date).toISOString().split('T')[0] %>"><br><br>
+
+        <label for="time">Time:</label><br>
+        <input type="time" id="time" name="time" value="<%= event.time %>"><br><br>
+
+        <label for="location">Location:</label><br>
+        <input type="text" id="location" name="location" value="<%= event.location %>"><br><br>
+
+        <label for="description">Description:</label><br>
+        <textarea id="description" name="description"><%= event.description %></textarea><br><br>
+
+        <button type="submit">Update Event</button>
+    </form>
+
+    <h3>Delete Event</h3>
+    <form action="/events/<%= event._id %>?_method=DELETE" method="POST">
+        <button type="submit" class="delete-btn">Delete Event</button>
+    </form>
+</div>
