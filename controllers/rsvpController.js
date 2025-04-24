@@ -2,9 +2,7 @@
 import Rsvp from '../models/rsvpModel.js';
 import Event from '../models/eventModel.js';
 
-// @desc    Create a new RSVP
-// @route   POST /rsvp
-// @access  Public
+
 const createRsvp = async (req, res) => {
   try {
     const { event, name, email } = req.body;

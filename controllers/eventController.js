@@ -57,9 +57,7 @@ const updateEvent = async (req, res) => {
   }
 };
 
-// @desc    Delete an event
-// @route   DELETE /events/:id
-// @access  Public
+
 const deleteEvent = async (req, res) => {
   try {
     const event = await Event.findByIdAndDelete(req.params.id);

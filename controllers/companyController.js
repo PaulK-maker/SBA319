@@ -27,9 +27,7 @@ const getCompany = async (req, res) => {
   }
 };
 
-// @desc    Create a new company
-// @route   POST /companies
-// @access  Public
+
 const createCompany = async (req, res) => {
   try {
     const company = await Company.create(req.body);
@@ -39,9 +37,7 @@ const createCompany = async (req, res) => {
   }
 };
 
-// @desc    Update a company
-// @route   PATCH /companies/:id
-// @access  Public
+
 const updateCompany = async (req, res) => {
   try {
     const company = await Company.findByIdAndUpdate(req.params.id, req.body, {
@@ -57,9 +53,7 @@ const updateCompany = async (req, res) => {
   }
 };
 
-// @desc    Delete a company
-// @route   DELETE /companies/:id
-// @access  Public
+
 const deleteCompany = async (req, res) => {
   try {
     const company = await Company.findByIdAndDelete(req.params.id);
