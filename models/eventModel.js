@@ -20,7 +20,7 @@ const eventSchema = new mongoose.Schema({
   company: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
-    required: false // Events don't necessarily need a company
+    required: false 
   },
   organizer: {
     type: mongoose.Schema.Types.ObjectId,
@@ -31,10 +31,16 @@ const eventSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
-  // Add other relevant fields like event type, capacity, etc.
+  //  I can Add other relevant fields like ..(event type, capacity, etc.)
 }, {
   timestamps: true
 });
+
+//event indexes
+
+eventSchema.index({ date: 1 }); // Index date for faster date-based queries
+eventSchema.index({ location: 1 }); // Index location for faster location-based queries
+eventSchema.index({ title: 'text', description: 'text' });
 
 const Event = mongoose.model('Event', eventSchema);
 

@@ -1,5 +1,5 @@
 
-
+//rsvpschema
 import mongoose from 'mongoose';
 
 const rsvpSchema = new mongoose.Schema({
