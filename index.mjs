@@ -20,6 +20,7 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+//Used expressLayouts to render my header and footer
 import expressLayouts from 'express-ejs-layouts'
 // const expressLayouts =import('express-ejs-layouts');
 // app.use(expressLayouts);
@@ -41,13 +42,15 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // View engine setup
 app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "Views"));
+app.set("views", path.join(__dirname, "views"));
 
 app.set('layout', 'layouts/main');
 app.use(expressLayouts);
 
 app.get('/about', (req, res) => {
   res.render('pages/about', { title: 'About' });
+  
+
 });
 
 // Routes setup
