@@ -1,3 +1,5 @@
+//event schema
+
 import mongoose from 'mongoose';
 
 const eventSchema = new mongoose.Schema({
@@ -7,11 +9,20 @@ const eventSchema = new mongoose.Schema({
   },
   description: {
     type: String,
-    required: [true, 'Please add a description']
+    required: [true, 'Please add a description'],
+
+    minlength: [10, 'Description must be at least 10 characters'] //validate length
   },
   date: {
     type: Date,
-    required: [true, 'Please add a date']
+    required: [true, 'Please add a date'],
+
+    validate: {
+      validator: function(value) {
+        return value > new Date(); // validate check if the date is in the future
+      },
+      message: 'Date must be in the future'
+    }
   },
   location: {
     type: String,

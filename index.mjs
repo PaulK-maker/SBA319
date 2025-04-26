@@ -20,13 +20,20 @@ connectDB();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-const __filename = fileURLToPath(import.meta.url);
+import expressLayouts from 'express-ejs-layouts'
+// const expressLayouts =import('express-ejs-layouts');
+// app.use(expressLayouts);
+// app.set('layout', 'layouts/main');
+
+
+ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Middleware setup
-app.use(express.json());
+app.use(express.json()); // parse JSON bodies
 app.use(express.urlencoded({ extended: true }));
 app.use(logger);
+app.use('/api/events', eventRoutes);
 app.use(methodOverride('_method'));
 
 // Serve static files
@@ -35,6 +42,13 @@ app.use(express.static(path.join(__dirname, "public")));
 // View engine setup
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "Views"));
+
+app.set('layout', 'layouts/main');
+app.use(expressLayouts);
+
+app.get('/about', (req, res) => {
+  res.render('pages/about', { title: 'About' });
+});
 
 // Routes setup
 app.use("/events", eventRoutes);
